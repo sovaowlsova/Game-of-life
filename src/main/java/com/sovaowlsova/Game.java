@@ -13,16 +13,21 @@ public class Game {
                 You've launched game of life. Select an option:
                 
                 0 — manually input field
-                1 — input field from a file
-                2 — make a field in UI
-                3 — generate random field
+                1 — launch a preset
+                2 — input field from a file
+                3 — make a field in UI
+                4 — generate random field
                 
                 You can press arrow key up and arrow key down
                 to change the speed of the simulation""");
-        int option = InputGetters.getInt(scanner, "Select an option: ");
+        int option = InputGetters.getInt(scanner, "Option: ");
         if (option == 0) {
             Field field = InputGetters.getFieldManualInput(scanner);
             System.out.println(field);
+        } else if (option == 2) {
+            InputGetters.getFieldFromFile(scanner);
+        } else {
+            System.out.println("ERROR: invalid option");
         }
         scanner.close();
     }

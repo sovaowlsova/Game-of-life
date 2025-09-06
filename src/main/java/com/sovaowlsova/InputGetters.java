@@ -1,16 +1,19 @@
 package com.sovaowlsova;
 
+import java.io.FileNotFoundException;
+import java.io.FileReader;
+import java.io.IOException;
 import java.util.NoSuchElementException;
 import java.util.Scanner;
 
 public class InputGetters {
     public static int getInt(Scanner scanner, String message) {
-        System.out.print(message);
+        System.out.printf("\n%s", message);
         int res;
         try {
             res = scanner.nextInt();
         } catch (NoSuchElementException e) {
-            System.out.print("Int required. Try again\n");
+            System.out.print("\nInt required. Try again");
             scanner.nextLine();
             return getInt(scanner, message);
         }
@@ -19,8 +22,8 @@ public class InputGetters {
 
     public static Field getFieldManualInput(Scanner scanner) {
         System.out.printf("\nInput field size. Max size of a field is %d in each direction\n", Game.MAX_FIELD_SIZE);
-        int width = getInt(scanner, "Input field width: ");
-        int height = getInt(scanner, "Input field height: ");
+        int width = getInt(scanner, "Width: ");
+        int height = getInt(scanner, "Height: ");
         if (width <= 0 || height <= 0 || width > 1000 || height > 1000) {
             System.out.println("\nInvalid boundaries");
             return getFieldManualInput(scanner);
@@ -47,5 +50,24 @@ public class InputGetters {
             }
         }
         return new Field(field, width, height);
+    }
+
+    public static Field getFieldFromFile(Scanner scanner) {
+        System.out.print("Path: ");
+        String path = scanner.next();
+        try (FileReader fileReader = new FileReader(path)) {
+            int i;
+            while ((i = fileReader.read()) != -1) {
+                System.out.print((char) i);
+            }
+            fileReader.close();
+            return null;
+        } catch (FileNotFoundException e) {
+            System.out.println("File not found. Try again");
+            return getFieldFromFile(scanner);
+        } catch (IOException e) {
+            System.out.println("Something went wrong. File might be damaged. Try again");
+            return getFieldFromFile(scanner);
+        }
     }
 }
