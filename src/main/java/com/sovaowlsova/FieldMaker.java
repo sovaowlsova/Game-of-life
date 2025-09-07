@@ -3,27 +3,13 @@ package com.sovaowlsova;
 import java.io.FileNotFoundException;
 import java.io.FileReader;
 import java.io.IOException;
-import java.util.NoSuchElementException;
 import java.util.Scanner;
 
-public class InputGetters {
-    public static int getInt(Scanner scanner, String message) {
-        System.out.printf("\n%s", message);
-        int res;
-        try {
-            res = scanner.nextInt();
-        } catch (NoSuchElementException e) {
-            System.out.print("\nInt required. Try again");
-            scanner.nextLine();
-            return getInt(scanner, message);
-        }
-        return res;
-    }
-
+public class FieldMaker {
     public static Field getFieldManualInput(Scanner scanner) {
-        System.out.printf("\nInput field size. Max size of a field is %d in each direction\n", Game.MAX_FIELD_SIZE);
-        int width = getInt(scanner, "Width: ");
-        int height = getInt(scanner, "Height: ");
+        System.out.printf("\nInput field size. Max size of a field is %d in each direction", Game.MAX_FIELD_SIZE);
+        int width = InputGetter.getInt(scanner, "Width: ");
+        int height = InputGetter.getInt(scanner, "Height: ");
         if (width <= 0 || height <= 0 || width > 1000 || height > 1000) {
             System.out.println("\nInvalid boundaries");
             return getFieldManualInput(scanner);

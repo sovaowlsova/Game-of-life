@@ -1,34 +1,51 @@
 package com.sovaowlsova;
 
-import java.util.Scanner;
+import java.awt.*;
+import java.awt.event.KeyEvent;
+import java.awt.event.KeyListener;
+import javax.swing.*;
 
-public class Game {
+public class Game implements KeyListener {
     public static final int MAX_FIELD_SIZE = 1000;
     public static final Character ALIVE_CELL = 'o';
-    public static final Character DEAD_CELL = '!';
+    public static final Character DEAD_CELL = ' ';
+    private static int speed = 500;
+    private static boolean play = true;
 
-    public static void main(String[] args) {
-        Scanner scanner = new Scanner(System.in);
-        System.out.print("""
-                You've launched game of life. Select an option:
-                
-                0 — manually input field
-                1 — launch a preset
-                2 — input field from a file
-                3 — make a field in UI
-                4 — generate random field
-                
-                You can press arrow key up and arrow key down
-                to change the speed of the simulation""");
-        int option = InputGetters.getInt(scanner, "Option: ");
-        if (option == 0) {
-            Field field = InputGetters.getFieldManualInput(scanner);
-            System.out.println(field);
-        } else if (option == 2) {
-            InputGetters.getFieldFromFile(scanner);
-        } else {
-            System.out.println("ERROR: invalid option");
+    public static void run(Field field) {
+        try {
+            JFrame frame = new JFrame("Game Of Life");
+            frame.setSize(800, 800);
+            frame.getContentPane().setBackground(Color.BLACK);
+
+            JLabel label = new JLabel("", SwingConstants.CENTER);
+            label.setForeground(Color.WHITE);
+            label.setText(field.toHTML());
+
+            frame.add(label);
+            frame.setVisible(true);
+
+            while (play) {
+                field.tick();
+                label.setText(field.toHTML());
+                Thread.sleep(speed);
+            }
+        } catch (InterruptedException e) {
+            System.out.println("Thread interrupted");
         }
-        scanner.close();
     }
+
+    @Override
+    public void keyTyped(KeyEvent e) {}
+
+    @Override
+    public void keyPressed(KeyEvent e) {
+        System.out.println("Pressed");
+        if (e.getKeyChar() == 'q') {
+            play = false;
+        }
+    }
+
+    @Override
+    public void keyReleased(KeyEvent e) {}
 }
