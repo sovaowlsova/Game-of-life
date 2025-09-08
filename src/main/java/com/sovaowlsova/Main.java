@@ -22,7 +22,7 @@ public class Main {
         if (option == 0) {
             field = FieldMaker.getFieldManualInput(scanner);
         } else if (option == 1) {
-            // TODO: implement
+            FieldMaker.getPreset(scanner);
         } else if (option == 2) {
             field = FieldMaker.getFieldFromFile(scanner);
         } else if (option == 3) {

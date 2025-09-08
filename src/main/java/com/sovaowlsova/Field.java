@@ -9,9 +9,12 @@ public class Field {
     private final int height;
 
     public Field(char[][] field, int width, int height) {
-        this.field = field;
         this.width = width;
         this.height = height;
+        this.field = new char[height][width];
+        for (int i = 0; i < height; i++) {
+            System.arraycopy(field[i], 0, this.field[i], 0, width);
+        }
     }
 
     public void tick() {

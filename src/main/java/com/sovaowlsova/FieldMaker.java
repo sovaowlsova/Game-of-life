@@ -1,11 +1,20 @@
 package com.sovaowlsova;
 
+import java.io.BufferedReader;
 import java.io.FileNotFoundException;
 import java.io.FileReader;
 import java.io.IOException;
+import java.util.Map;
 import java.util.Scanner;
+import java.util.StringJoiner;
 
 public class FieldMaker {
+    private static final Map<String, String> PRESETS = Map.of(
+            "Glider", "presets/glider.txt",
+            "Acorn", "presets/acorn.txt"
+    );
+    private static final String PRESETS_STRING = mapKeysToString(PRESETS);
+
     public static Field getFieldManualInput(Scanner scanner) {
         System.out.printf("\nInput field size. Max size of a field is %d in each direction", Game.MAX_FIELD_SIZE);
         int width = InputGetter.getInt(scanner, "Width: ");
@@ -55,5 +64,42 @@ public class FieldMaker {
             System.out.println("Something went wrong. File might be damaged. Try again");
             return getFieldFromFile(scanner);
         }
+    }
+
+    public static Field getPreset(Scanner scanner) {
+        System.out.println("Choose a preset. Case insensitive");
+        System.out.println(PRESETS_STRING);
+        System.out.print("preset name: ");
+        String name = scanner.nextLine();
+        String path = getPresetByName(name);
+        if (path.isEmpty()) {
+            System.out.println("Invalid preset name. Try again");
+            return getPreset(scanner);
+        }
+
+        Scanner fileScanner = new Scanner(path);
+        int height = fileScanner.nextInt();
+        int width = fileScanner.nextInt();
+        char[][] fieldArray = new char[height][width];
+        for (int i = 0; i < height; i++) {
+            fieldArray[i] = scanner.nextLine().toCharArray();
+        }
+        return new Field(fieldArray, width, height);
+    }
+
+    private static String getPresetByName(String name) {
+        String nameLowercase = name.toLowerCase();
+        for (var entry : PRESETS.entrySet()) {
+            if (nameLowercase.equals(entry.getKey().toLowerCase())) {
+                return entry.getValue();
+            }
+        }
+        return "";
+    }
+
+    private static <K, V> String mapKeysToString(Map<K, V> map) {
+        StringJoiner stringJoiner = new StringJoiner("\n");
+        map.forEach((key, value) -> stringJoiner.add(String.format("- \"%s\"", key.toString())));
+        return stringJoiner.toString();
     }
 }
