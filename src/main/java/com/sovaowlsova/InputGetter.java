@@ -5,12 +5,13 @@ import java.util.Scanner;
 
 public class InputGetter {
     public static int getInt(Scanner scanner, String message) {
-        System.out.printf("\n%s", message);
+        System.out.printf("%s", message);
         int res;
         try {
             res = scanner.nextInt();
+            scanner.nextLine();
         } catch (NoSuchElementException e) {
-            System.out.print("Int required. Try again");
+            System.out.println("Int required. Try again");
             scanner.nextLine();
             return getInt(scanner, message);
         }
@@ -26,6 +27,7 @@ public class InputGetter {
                 System.out.print("Invalid option. Try again");
                 return getIntInRange(scanner, message, min, max);
             }
+            scanner.nextLine();
         } catch (NoSuchElementException e) {
             System.out.print("Int required. Try again");
             scanner.nextLine();

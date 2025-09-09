@@ -9,7 +9,8 @@ public class Game implements KeyListener {
     public static final int MAX_FIELD_SIZE = 1000;
     public static final Character ALIVE_CELL = 'o';
     public static final Character DEAD_CELL = ' ';
-    private static int speed = 500;
+    public static final int MAX_SIZE = 100;
+    private static int speed = 250;
     private static boolean play = true;
 
     public static void run(Field field) {
@@ -19,6 +20,7 @@ public class Game implements KeyListener {
             frame.getContentPane().setBackground(Color.BLACK);
 
             JLabel label = new JLabel("", SwingConstants.CENTER);
+            label.setBounds(0, 0, 1980, 1080);
             label.setForeground(Color.WHITE);
             label.setText(field.toHTML());
 

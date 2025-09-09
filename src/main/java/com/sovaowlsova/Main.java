@@ -22,15 +22,15 @@ public class Main {
         if (option == 0) {
             field = FieldMaker.getFieldManualInput(scanner);
         } else if (option == 1) {
-            FieldMaker.getPreset(scanner);
+            field = FieldMaker.getPreset(scanner);
         } else if (option == 2) {
             field = FieldMaker.getFieldFromFile(scanner);
         } else if (option == 3) {
             // TODO: implement
         } else if (option == 4) {
-            // TODO: implement
+            field = FieldMaker.getRandomField(scanner);
         }
-
+        System.out.println(field);
         Game.run(field);
         scanner.close();
     }
